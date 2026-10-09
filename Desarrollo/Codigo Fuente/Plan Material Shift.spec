@@ -7,7 +7,7 @@ a = Analysis(
     datas=[("pms/assets", "pms/assets")],
     hiddenimports=[],
     excludes=["matplotlib", "pandas", "PIL", "IPython", "pytest", "setuptools", "pydoc_data",
-              "tkinter.test", "unittest", "lib2to3"],
+              "tkinter.test", "lib2to3"],
     noarchive=False,
 )
 pyz = PYZ(a.pure)

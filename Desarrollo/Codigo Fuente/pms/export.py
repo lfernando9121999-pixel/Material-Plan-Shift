@@ -78,7 +78,6 @@ def _stack_sheet(wb, res):
                 "(azul = Mineral, naranja = Desmonte).")
     plan_st, res_st = polygon_stack(res, False), polygon_stack(res, True)
     kmax = max([len(v) for v in plan_st.values()] + [1])
-    col0 = 1
     row_tab = 60
     ws.cell(row=row_tab - 1, column=1, value="Detalle por polígono").font = Font(bold=True)
     heads = ["Semana", "Orden", "Polígono", "Inicia con (Plan)", "Inicia con (Resultado)", "Mineral (Mt)",

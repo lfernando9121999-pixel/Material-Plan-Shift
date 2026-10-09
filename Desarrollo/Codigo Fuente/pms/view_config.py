@@ -7,7 +7,7 @@ from tkinter import ttk
 from . import config as C
 from .dialogs import MatrixDialog
 from .theme import C as K, F, MINERAL_COLOR, DESMONTE_COLOR
-from .widgets import Btn, Card, Check, PriorityList, ScrollFrame, Segmented, autowrap, fmt, label, set_tree_state
+from .widgets import Btn, Card, Check, PriorityList, ScrollFrame, Segmented, autowrap, label, set_tree_state
 
 CIRC_COLOR = {"Mineral": MINERAL_COLOR, "Desmonte": DESMONTE_COLOR}
 

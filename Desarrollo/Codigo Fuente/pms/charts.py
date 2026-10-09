@@ -9,7 +9,7 @@ import math
 import tkinter as tk
 import tkinter.font as tkfont
 
-from .theme import C, F
+from .theme import C, F, px
 from .widgets import fmt
 
 
@@ -51,7 +51,8 @@ class Chart(tk.Canvas):
     ML, MR, MT, MB = 70, 18, 14, 46
 
     def __init__(self, parent, height=320, yfmt=None, unit="t", xlabel="", ylabel="", legend=True):
-        super().__init__(parent, height=height, bg=C["panel"], highlightthickness=0)
+        super().__init__(parent, height=px(height), bg=C["panel"], highlightthickness=0)
+        self.ML, self.MR, self.MT, self.MB = px(self.ML), px(self.MR), px(self.MT), px(self.MB)
         self.yfmt = yfmt or (lambda v: compact(v, unit))
         self.unit = unit
         self.xlabel, self.ylabel = xlabel, ylabel
@@ -289,7 +290,7 @@ class BarChart(Chart):
         self.series = []
         self.bind("<ButtonRelease-1>", self._click)
         if horizontal:
-            self.ML = 96
+            self.ML = px(96)
 
     def set_data(self, cats, series, hlines=()):
         self.cats, self.series, self.hlines = list(cats), list(series), list(hlines)
@@ -480,7 +481,7 @@ class SegmentChart(Chart):
 # ---------------------------------------------------------------------------
 class Sparkline(tk.Canvas):
     def __init__(self, parent, width=150, height=34, color=None, bg=None):
-        super().__init__(parent, width=width, height=height, bg=bg or C["panel"], highlightthickness=0)
+        super().__init__(parent, width=px(width), height=px(height), bg=bg or C["panel"], highlightthickness=0)
         self.color = color or C["muted"]
         self.values = []
         self.mark = None

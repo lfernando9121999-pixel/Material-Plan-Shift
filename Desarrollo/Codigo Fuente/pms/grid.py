@@ -6,7 +6,7 @@ import tkinter as tk
 import tkinter.font as tkfont
 from tkinter import ttk
 
-from .theme import C, F
+from .theme import C, F, px
 from .widgets import FilterPopup, draw_icon, fmt
 
 
@@ -16,6 +16,7 @@ class DataGrid(tk.Frame):
     def __init__(self, parent, columns, cell_style=None, group_header=None, stretch=True, height=None,
                  on_select=None, frozen=0, min_col=56, status=None):
         super().__init__(parent, bg=C["border"])
+        self.RH = px(22)
         self.columns = columns            # [{"title", "align", "fmt", "width", "filter", "key"}]
         self.cell_style = cell_style
         self.group_header = group_header  # [(texto, col_ini, col_fin)]
@@ -112,9 +113,9 @@ class DataGrid(tk.Frame):
                 w = max(w, self.font.measure(self._text(ci, r[ci])) + 18)
             if self.total:
                 w = max(w, self.bfont.measure(self._text(ci, self.total[ci])) + 18)
-            w = max(self.min_col, min(w, col.get("max", 360)))
+            w = max(px(self.min_col), min(w, px(col.get("max", 360))))
             if col.get("width"):
-                w = col["width"]
+                w = px(col["width"])
             ws.append(w)
         self.base_widths = ws
 

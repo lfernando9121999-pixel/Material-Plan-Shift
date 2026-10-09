@@ -7,7 +7,7 @@ import tkinter as tk
 from tkinter import ttk
 
 from . import APP_NAME
-from .theme import C, F, titlebar
+from .theme import C, F, px, titlebar
 
 
 # ---------------------------------------------------------------------------
@@ -204,6 +204,7 @@ def draw_icon(cv, name, s, color, x0=0, y0=0):
 class IconButton(tk.Canvas):
     def __init__(self, parent, icon, command=None, tip="", size=26, color=None, bg=None):
         bgc = bg or parent.cget("bg")
+        size = px(size)
         super().__init__(parent, width=size, height=size, bg=bgc, highlightthickness=0, cursor="hand2")
         self._bg = bgc
         self.icon, self.command, self.color = icon, command, color
@@ -356,6 +357,7 @@ class Check(tk.Frame):
         self.value = bool(value)
         self.command = command
         self.enabled = True
+        size = px(size)
         self.size = size
         self.cv = tk.Canvas(self, width=size + 2, height=size + 2, bg=bgc, highlightthickness=0, cursor="hand2")
         self.cv.pack(side="left")
@@ -414,7 +416,8 @@ class Toggle(tk.Canvas):
 
     def __init__(self, parent, value=True, command=None, bg=None, tip=""):
         bgc = bg or parent.cget("bg")
-        super().__init__(parent, width=34, height=18, bg=bgc, highlightthickness=0, cursor="hand2")
+        self.k = px(100) / 100.0
+        super().__init__(parent, width=px(34), height=px(18), bg=bgc, highlightthickness=0, cursor="hand2")
         self.value = bool(value)
         self.command = command
         self.enabled = True
@@ -425,13 +428,14 @@ class Toggle(tk.Canvas):
 
     def _draw(self):
         self.delete("all")
+        k = self.k
         on = self.value
         track = (C["primary"] if on else C["border"]) if self.enabled else C["alt"]
-        self.create_oval(1, 1, 17, 17, fill=track, outline=track)
-        self.create_oval(17, 1, 33, 17, fill=track, outline=track)
-        self.create_rectangle(9, 1, 25, 17, fill=track, outline=track)
-        x = 25 if on else 9
-        self.create_oval(x - 6, 3, x + 6, 15, fill="#FFFFFF", outline="#FFFFFF")
+        self.create_oval(1 * k, 1 * k, 17 * k, 17 * k, fill=track, outline=track)
+        self.create_oval(17 * k, 1 * k, 33 * k, 17 * k, fill=track, outline=track)
+        self.create_rectangle(9 * k, 1 * k, 25 * k, 17 * k, fill=track, outline=track)
+        x = (25 if on else 9) * k
+        self.create_oval(x - 6 * k, 3 * k, x + 6 * k, 15 * k, fill="#FFFFFF", outline="#FFFFFF")
 
     def _toggle(self, _e=None):
         if not self.enabled:
@@ -605,7 +609,7 @@ class ToolWindow(tk.Toplevel):
         self.left = tk.Frame(self.foot, bg=C["alt"])
         self.left.pack(side="left", padx=12, pady=10)
         self._modal = modal
-        self._size = (w, h)
+        self._size = (px(w), px(h))
         self.bind("<Escape>", lambda e: self.cancel())
         self.protocol("WM_DELETE_WINDOW", self.cancel)
 
@@ -654,7 +658,7 @@ class ProgressWindow(tk.Toplevel):
             self.protocol("WM_DELETE_WINDOW", lambda: None)
             tk.Frame(foot, bg=C["alt"], height=8).pack()
         self._cancel_cb = cancel
-        center(self, parent.winfo_toplevel(), 420, 150)
+        center(self, parent.winfo_toplevel(), px(420), px(150))
         self.deiconify()
         titlebar(self)
         self.grab_set()
@@ -738,8 +742,8 @@ class FilterPopup(tk.Toplevel):
         self._fill()
         self.bind("<Escape>", lambda e: self.cancel())
         self.bind("<Return>", lambda e: self.apply())
-        h = min(420, 150 + 24 * min(len(self.values), 12) + (34 if self.search else 0))
-        w = 250
+        h = px(min(420, 150 + 24 * min(len(self.values), 12) + (34 if self.search else 0)))
+        w = px(250)
         x0 = anchor.winfo_rootx()
         y0 = anchor.winfo_rooty() + anchor.winfo_height() + 2
         sw, sh = self.winfo_screenwidth(), self.winfo_screenheight()

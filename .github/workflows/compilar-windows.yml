@@ -48,8 +48,9 @@ jobs:
         run: |
           $exe = "Desarrollo/Codigo Fuente/dist/Plan Material Shift/Plan Material Shift.exe"
           $out = "$env:RUNNER_TEMP\smoke.txt"
-          Start-Process -FilePath $exe -ArgumentList "--smoke", "`"$out`"" -Wait
-          Get-Content $out
+          $p = Start-Process -FilePath $exe -ArgumentList "--smoke", "`"$out`"" -PassThru
+          if (-not $p.WaitForExit(180000)) { Write-Host "Tiempo agotado: se detiene el proceso"; $p.Kill() }
+          if (Test-Path $out) { Get-Content $out } else { Write-Host "Sin archivo de salida" }
           if (-not (Select-String -Path $out -Pattern "SMOKE OK" -Quiet)) { exit 1 }
 
       - name: Armar carpeta de entrega

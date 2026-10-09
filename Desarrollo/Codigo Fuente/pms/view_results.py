@@ -11,7 +11,7 @@ from . import config as C
 from .charts import BarChart, LineChart, SegmentChart, Sparkline
 from .export import MOVE_HEADERS, REORDER_HEADERS, moves_rows, reorder_rows
 from .grid import DataGrid
-from .theme import C as K, F, SERIES, PLAN_COLOR, SCEN_COLOR, MINERAL_COLOR, DESMONTE_COLOR, TYPE_COLORS
+from .theme import C as K, F, SERIES, PLAN_COLOR, SCEN_COLOR, MINERAL_COLOR, DESMONTE_COLOR
 from .widgets import Btn, Card, Check, FilterButton, ScrollFrame, Segmented, Tooltip, autowrap, fmt, fmt_signed, label
 
 MONTHS = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
@@ -37,14 +37,14 @@ class ResultsPage(tk.Frame):
         strip.pack(fill="x")
         self.sub = {}
         for key, text in self.TABS:
-            lb = tk.Label(strip, text=text, font=F["base"], bg=K["panel"], fg=K["text"], padx=12, pady=7, cursor="hand2")
+            lb = tk.Label(strip, text=text, font=F["base"], bg=K["panel"], fg=K["text"], padx=9, pady=7, cursor="hand2")
             lb.pack(side="left")
             lb.bind("<ButtonRelease-1>", lambda e, k=key: self.show(k))
             self.sub[key] = lb
-        self.circ = Segmented(strip, [(c, c) for c in C.CIRCUITS], "Desmonte", self._circuit, padx=14, pady=3,
+        self.circ = Segmented(strip, [(c, c) for c in C.CIRCUITS], "Desmonte", self._circuit, padx=10, pady=3,
                               colors={"Mineral": MINERAL_COLOR, "Desmonte": DESMONTE_COLOR})
-        self.circ.pack(side="right", padx=10, pady=4)
-        label(strip, "Circuito", F["base"], K["muted"]).pack(side="right")
+        self.circ.pack(side="right", padx=8, pady=4)
+        Tooltip(self.circ, "Circuito mostrado en Dashboard, Tabla, Materiales, Validación y Movimientos")
         tk.Frame(self, bg=K["border"], height=1).pack(fill="x")
         self.banner = tk.Frame(self, bg=K["bad_bg"])
         self.banner_lbl = label(self.banner, "", F["base"], K["bad_fg"], bg=K["bad_bg"])
@@ -644,7 +644,7 @@ class MineView(tk.Frame):
         mx = int(np.argmax(tot)) if len(tot) else 0
         mn_i = int(np.argmin(np.where(tot > 0, tot, np.inf))) if len(nz) else 0
         unit = {"sem": "Semanal", "mes": "Mensual", "dia": "Diario"}[per]
-        vals = [(f"Tonelaje Movido Total", f"{tot.sum() / 1e6:,.2f} Mt",
+        vals = [("Tonelaje Movido Total", f"{tot.sum() / 1e6:,.2f} Mt",
                  f"{len(series)} {stack_name.lower()}{'es' if stack_name == 'Material' else 's'} · "
                  f"{len(ph_sel)} fases", None, False),
                 (f"Tonelaje Promedio {unit}", f"{(nz.mean() if len(nz) else 0) / 1e3:,.1f} kt",

@@ -9,7 +9,7 @@ from . import config as C
 from .dialogs import DestinationsDialog, MaterialsDialog, PhasesDialog
 from .plan import ROLE_LABELS
 from .theme import C as K, F, MINERAL_COLOR, DESMONTE_COLOR
-from .widgets import Btn, Card, ScrollFrame, fmt, label
+from .widgets import Btn, Card, ScrollFrame, label
 
 DESC_MAX = 500
 
@@ -212,7 +212,6 @@ class InputsPage(tk.Frame):
         if y:
             self.year.insert(0, str(y))
         if plan is not None:
-            ys = plan.years()
             det = plan.detect_year()
             self.year_hint.configure(text=f"Detectado en «{plan.headers[plan.roles['fecha']]}»: {det}"
                                      if "fecha" in plan.roles and det else "")

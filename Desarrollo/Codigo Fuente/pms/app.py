@@ -13,9 +13,9 @@ from tkinter import filedialog
 from . import APP_NAME, APP_SUBTITLE, PROJECT_EXT, VERSION
 from . import config as C
 from . import theme
-from .theme import C as K, F
+from .theme import C as K, F, px
 from .prefs import Prefs, desktop
-from .widgets import (Btn, IconButton, ProgressWindow, Tooltip, close_popup, dialog, draw_icon, install_wheel, label)
+from .widgets import (IconButton, ProgressWindow, Tooltip, close_popup, dialog, draw_icon, install_wheel, label)
 
 
 def resource(*parts):
@@ -269,7 +269,7 @@ class FilesPanel(tk.Frame):
     W = 270
 
     def __init__(self, parent, ws):
-        super().__init__(parent, bg=K["border"], width=self.W)
+        super().__init__(parent, bg=K["border"], width=px(self.W))
         self.ws = ws
         self.pinned = ws.app.prefs.get("panel_pinned", True)
         self.inner = tk.Frame(self, bg=K["panel"])
@@ -357,11 +357,11 @@ class FilesPanel(tk.Frame):
         if self.pinned:
             self.strip.pack_forget()
             self.inner.pack(fill="both", expand=True, padx=1, pady=1)
-            self.configure(width=self.W)
+            self.configure(width=px(self.W))
             self.pack_propagate(False)
         else:
             self.inner.pack_forget()
-            self.configure(width=28)
+            self.configure(width=px(28))
             self.pack_propagate(False)
             self.strip.pack(fill="both", expand=True, padx=1, pady=1)
             for w in self.strip.winfo_children():
@@ -410,14 +410,14 @@ class App:
         self._load_icons()
         self._build()
         self._bind_keys()
+        sw, sh = root.winfo_screenwidth(), root.winfo_screenheight()
+        w0, h0 = min(px(1440), int(sw * 0.94)), min(px(900), int(sh * 0.88))
+        default = f"{w0}x{h0}+{max(0, (sw - w0) // 2)}+{max(0, (sh - h0) // 3)}"
         geo = self.prefs.get("geometry")
-        if geo:
-            try:
-                root.geometry(geo)
-            except tk.TclError:
-                root.geometry("1440x900")
-        else:
-            root.geometry("1440x900")
+        try:
+            root.geometry(geo or default)
+        except tk.TclError:
+            root.geometry(default)
         if self.prefs.get("zoomed") and sys.platform == "win32":
             root.state("zoomed")
         root.protocol("WM_DELETE_WINDOW", self.quit)

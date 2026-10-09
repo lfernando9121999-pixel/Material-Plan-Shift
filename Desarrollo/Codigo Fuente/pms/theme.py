@@ -32,6 +32,12 @@ TYPE_COLORS = {"Mineral": MINERAL_COLOR, "Desmonte": DESMONTE_COLOR}
 C = dict(LIGHT)
 DARK_MODE = False
 F = {}
+SCALE = [1.0]          # factor de escala por DPI (1.0 = 96 ppp)
+
+
+def px(v):
+    """Convierte píxeles de diseño (96 ppp) a píxeles de pantalla."""
+    return int(round(v * SCALE[0]))
 
 
 def family():
@@ -45,6 +51,10 @@ def family():
 def apply(root, dark=False):
     global DARK_MODE
     DARK_MODE = dark
+    try:
+        SCALE[0] = max(1.0, min(3.0, root.winfo_fpixels("1i") / 96.0))
+    except tk.TclError:
+        SCALE[0] = 1.0
     C.clear()
     C.update(DARK if dark else LIGHT)
     fam = family()
