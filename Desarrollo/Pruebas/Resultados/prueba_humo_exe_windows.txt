@@ -1,0 +1,7 @@
+inicio
+numpy 2.5.3
+linprog HiGHS: estado 0, objetivo 1.000
+openpyxl 3.1.5
+motor: ok (312 filas, 329 movimientos, 0 intercambios, reporte exportado)
+interfaz: ok (1 escenario, logo ok)
+SMOKE OK
