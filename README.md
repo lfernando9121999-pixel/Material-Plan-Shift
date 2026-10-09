@@ -2,10 +2,19 @@
 
 Programa de escritorio (Windows) para balancear el material semanal y diario entre destinos donantes y receptores de un plan de minado leído desde Excel, con experimentos de **Reordenamiento de Filas** y **Asignación Balanceada Aleatoria**. Criterios según *Material Shift v2.1 (Codex).docx*.
 
-## Estructura
+## Versiones
+
+| Versión | Ejecutable (entregable) | Código y pruebas |
+|---|---|---|
+| **v2.2** (vigente) | `Plan Material Shift v2.2/` | `Desarrollo v2.2/` — rendimiento, pestañas Restricciones antes de Función Objetivo, priorización de destinos en la permutación |
+| v2.1 | `Plan Material Shift/` | `Desarrollo/` |
+
+Detalle de la v2.2: `Desarrollo v2.2/Pruebas/Verificacion.md`.
+
+## Estructura (v2.1; la v2.2 tiene la misma organización en `Desarrollo v2.2/`)
 
 ```
-Plan Material Shift/              ← ENTREGABLE: Plan Material Shift.exe + _internal + Inputs, Escenarios, Outputs, Leame.md
+Plan Material Shift/              ← ENTREGABLE v2.1: Plan Material Shift.exe + _internal + Inputs, Escenarios, Outputs, Leame.md
 Desarrollo/
 ├── Codigo Fuente/
 │   ├── main.py                   Punto de entrada (también «--smoke» para la prueba de humo del .exe)
