@@ -1,0 +1,79 @@
+name: Compilar Plan Material Shift (Windows)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/friendly-johnson-b4s0x8]
+    paths:
+      - "Desarrollo/Codigo Fuente/**"
+      - "Desarrollo/Pruebas/**"
+      - ".github/workflows/compilar-windows.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: compilar-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compilar:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Dependencias
+        run: python -m pip install -r "Desarrollo/Codigo Fuente/requirements.txt" pyinstaller pytest pillow
+
+      - name: Pruebas del motor
+        working-directory: Desarrollo/Pruebas
+        run: python -m pytest -q
+
+      - name: Prueba de interfaz
+        working-directory: Desarrollo/Pruebas
+        run: python -u prueba_interfaz.py "$env:RUNNER_TEMP\capturas"
+
+      - name: Compilar ejecutable
+        working-directory: Desarrollo/Codigo Fuente
+        run: python -m PyInstaller --noconfirm --clean "Plan Material Shift.spec"
+
+      - name: Prueba de humo del ejecutable
+        run: |
+          $exe = "Desarrollo/Codigo Fuente/dist/Plan Material Shift/Plan Material Shift.exe"
+          $out = "$env:RUNNER_TEMP\smoke.txt"
+          Start-Process -FilePath $exe -ArgumentList "--smoke", "`"$out`"" -Wait
+          Get-Content $out
+          if (-not (Select-String -Path $out -Pattern "SMOKE OK" -Quiet)) { exit 1 }
+
+      - name: Armar carpeta de entrega
+        run: ./"Desarrollo/Codigo Fuente/armar_entrega.ps1"
+
+      - name: Guardar capturas de la prueba de interfaz
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: capturas-prueba-interfaz
+          path: ${{ runner.temp }}/capturas
+          if-no-files-found: ignore
+
+      - name: Publicar la carpeta de entrega en la rama
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config core.autocrlf false
+          New-Item -ItemType Directory -Force -Path "Desarrollo/Pruebas/Resultados" | Out-Null
+          Copy-Item "$env:RUNNER_TEMP\capturas\resultado_interfaz.txt" "Desarrollo/Pruebas/Resultados/resultado_interfaz_windows.txt" -ErrorAction SilentlyContinue
+          Copy-Item "$env:RUNNER_TEMP\smoke.txt" "Desarrollo/Pruebas/Resultados/prueba_humo_exe_windows.txt" -ErrorAction SilentlyContinue
+          git add -A "Plan Material Shift" "Desarrollo/Pruebas/Resultados"
+          git diff --cached --quiet
+          if ($LASTEXITCODE -eq 0) { Write-Host "Sin cambios"; exit 0 }
+          git commit -m "Compilar Plan Material Shift.exe (Windows, PyInstaller)"
+          git pull --rebase origin "${{ github.ref_name }}"
+          git push origin "HEAD:${{ github.ref_name }}"

@@ -1,0 +1,2 @@
+Coloque aquí los libros de Excel (.xlsx) que usará como Input para Análisis.
+El programa también puede abrirlos desde el Escritorio u otra carpeta.

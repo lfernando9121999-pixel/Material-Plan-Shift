@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+Desarrollo/Codigo Fuente/build/
+Desarrollo/Codigo Fuente/dist/
+.pytest_cache/

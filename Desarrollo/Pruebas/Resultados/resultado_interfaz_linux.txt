@@ -1,0 +1,18 @@
+OK   Carga del Excel en segundo plano · 4.3 s · 10998 filas
+OK   La interfaz no se congela durante la carga · pausa máxima del bucle de eventos 0.17 s
+OK   Hoja detectada automáticamente · Plan_Base
+OK   Año detectado (más frecuente en Fecha Liberación) · 2042
+OK   Fases sin 0 · PHASE 13, PHASE 14, PHASE 15
+OK   Destinos 14–59 / Materiales 60–74
+OK   Experimento convencional · 0.8 s · 3,636 movimientos
+OK   Experimento reordenamiento · 0.4 s · 3,636 movimientos
+OK   Experimento aleatoria · 1.0 s · 12,462 movimientos
+OK   Experimento integral · 1.1 s · 12,462 movimientos
+OK   Reordenamiento cambia el orden de filas · 211 intercambios
+OK   Granularidad diaria
+OK   Guardar .pmsx con resultados · 0.8 MB
+OK   Abrir .pmsx (resultados restaurados)
+OK   Exportar Plan Modificado · 12,087 celdas · 15.0 s
+OK   Exportar Reporte · 2.4 s
+
+RESULTADO: 16/16 pruebas OK
