@@ -1,0 +1,19 @@
+Grupo	Medición	Promedio (ms)	Máximo (ms)	Límite	Estado
+fondo	Preparación en segundo plano (paso más largo)	145.6	145.6	150	OK
+tab	Primera apertura pestañas principales	57.9	106.8	400	OK
+tab	Primera apertura subpestañas de Resultados	38.5	133.2	600	OK
+tab	Cambio entre pestañas principales	24.3	35.2	60.0	OK
+tab	Cambio entre subpestañas de Resultados	23.2	47.9	60.0	OK
+tab	Cambio de circuito (vista actual)	16.4	16.8	250	OK
+tab	Cambio Meta Física / Experimentos	27.6	45.8	60.0	OK
+tecla	Nombre del Escenario	5.7	9.9	16.0	OK
+parpadeo	Nombre del Escenario (widgets reconstruidos)	0.0	0.0	0	OK
+tecla	Descripción	1.4	1.9	16.0	OK
+parpadeo	Descripción (widgets reconstruidos)	0.0	0.0	0	OK
+tecla	Meta Promedio (Deseado)	0.3	0.3	16.0	OK
+parpadeo	Meta Promedio (Deseado) (widgets reconstruidos)	0.0	0.0	0	OK
+resize	Redimensionar ventana (Dashboard)	25.6	144.9	250	OK
+resize	Redimensionar ventana (Reordenamiento)	13.7	73.8	400	OK
+mover	Mover ventana (30 pasos)	3.0	14.4	16.0	OK
+
+RESULTADO: 16/16 mediciones dentro del límite

@@ -1,0 +1,2 @@
+Carpeta sugerida para guardar los escenarios del programa (.pmsx).
+Un .pmsx guarda los inputs y, si están vigentes, los resultados de la última corrida.
